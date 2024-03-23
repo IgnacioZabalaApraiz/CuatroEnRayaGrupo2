@@ -3,7 +3,7 @@ package controlador;
 import java.util.Arrays;
 
 public class Main {
-	private static int[][] tablero2 = 
+	private static int[][] tablero = 
 		{		
 				{0,1,1,0,0,0},
 				{0,1,1,0,0,0},
@@ -26,8 +26,8 @@ public class Main {
 		
 		//int[][] tablero = new int [6][2];// primero filas y luego columnas
 		
-		for (int i = 0; i < tablero2.length; i++) {
-			System.out.println(Arrays.toString(tablero2[i]));
+		for (int i = 0; i < tablero.length; i++) {
+			System.out.println(Arrays.toString(tablero[i]));
 		}
 		
 		if (detectarColumna(1)) {// aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
@@ -40,9 +40,9 @@ public class Main {
 	
 	public static boolean detectarFila(int n) {
 		int cont = 0;
-		for (int i = 0; i < tablero2.length; i++) {
-			for (int j = 0; j < tablero2[0].length; j++) {
-				if (tablero2[i][j] == n) {
+		for (int i = 0; i < tablero.length; i++) {
+			for (int j = 0; j < tablero[0].length; j++) {
+				if (tablero[i][j] == n) {
 					cont++;
 				} else {
 					cont = 0;
@@ -59,9 +59,9 @@ public class Main {
 	
 	public static boolean detectarColumna(int n) {
 		int cont = 0;
-		for (int i = 0; i < tablero2[0].length; i++) {
-			for (int j = 0; j < tablero2.length; j++) {
-				if (tablero2[j][i] == n) {
+		for (int i = 0; i < tablero[0].length; i++) {
+			for (int j = 0; j < tablero.length; j++) {
+				if (tablero[j][i] == n) {
 					cont++;
 				} else {
 					cont = 0;
