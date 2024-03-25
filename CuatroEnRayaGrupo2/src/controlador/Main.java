@@ -4,128 +4,89 @@ import java.util.Arrays;
 
 public class Main {
 	private static int[][] tablero = { 
-			// Pruebas
-			{0,0,0,0,0,0},
-			{0,0,1,0,0,0},
-			{0,0,0,1,0,0},
-			{0,0,0,0,1,0},
-			{0,0,0,0,0,1},
-			{0,0,0,0,0,0}
+			{0,1,0,1,0,1},
+			{1,0,1,0,1,0},
+			{1,1,0,0,0,1},
+			{0,0,0,1,1,1},
+			{1,1,0,1,1,0},
+			{0,1,0,1,0,1}
 			
 	};
-//		{		
-//		{0,0,0,0,0,0},
-//		{0,0,0,0,0,0},
-//		{0,0,0,0,0,0},
-//		{0,0,0,0,0,0},
-//		{0,0,0,0,0,0},
-//		{0,0,0,0,0,0}
-//		};
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		// int[][] tablero = new int [6][2];// primero filas y luego columnas
-
 		for (int i = 0; i < tablero.length; i++) {
 			System.out.println(Arrays.toString(tablero[i]));
 		}
-
-//		if (detectarColumna(1)) {// aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-//		 	System.out.println("Has ganado.");
-//		} else {
-//			System.out.println("Derrota.");
-//		}
-		if (detectarFila(1)) {
-			System.out.println("Has ganado formando una fila de 4");
-		} else if(detectarColumna(1)){
-			System.out.println("Has ganado formando una columna de 4");
-		} else if(detectarDiagonal(1)){
-			System.out.println("Has ganado formando una diagonal de 4");
+		
+		long inicio = System.nanoTime();
+		
+		if (detectarCuatroEnRaya(1)) {
+		 	System.out.println("Has ganado.");
 		} else {
-			System.out.println("No se ha encontrado nada");
+			System.out.println("Derrota.");
 		}
+        long fin = System.nanoTime();
+
+        long tiempoEjecucion = fin - inicio;
+        
+        System.out.println("El método tardó " + tiempoEjecucion + " nanosegundos en ejecutarse.");
 
 	}
 
-	public static boolean detectarFila(int n) {
-		int cont = 0;
-		for (int i = 0; i < tablero.length; i++) {
-			for (int j = 0; j < tablero[0].length; j++) {
-				if (tablero[i][j] == n) {
-					cont++;
-				} else {
-					cont = 0;
+	public static boolean detectarCuatroEnRaya(int n) {
+		int filas = tablero.length;
+		int columnas = tablero[0].length;
+		
+		// Detectar en horizontal y en vertical
+		for (int i = 0; i < filas; i++) {
+			for (int j = 0; j < columnas; j++) {
+				
+				// Horizontal
+				if (j + 3 < columnas &&
+						tablero[i][j] == n &&
+						tablero[i][j + 1] == n &&
+						tablero[i][j + 2] == n &&
+						tablero[i][j + 3] == n) {
+					return true;
 				}
-				if (cont == 4) {
+				
+				// Vertical
+				if (i + 3 < filas &&
+						tablero[i][j] == n &&
+						tablero[i + 1][j] == n &&
+						tablero[i + 2][j] == n &&
+						tablero[i + 3][j] == n) {
 					return true;
 				}
 			}
-			cont = 0;
 		}
-
-		return false;
-	}
-
-	public static boolean detectarColumna(int n) {
-		int cont = 0;
-		for (int i = 0; i < tablero[0].length; i++) {
-			for (int j = 0; j < tablero.length; j++) {
-				if (tablero[j][i] == n) {
-					cont++;
-				} else {
-					cont = 0;
+		
+		// Detectar en diagonal
+		for (int i = 0; i < filas; i++) {
+			for (int j = 0; j < columnas; j++) {
+				
+				// Diagonal hacia abajo
+				if(i + 3 < filas && j + 3 < columnas &&
+						tablero[i][j] == n &&
+						tablero[i + 1][j + 1] == n &&
+						tablero[i + 2][j + 2] == n &&
+						tablero[i + 3][j + 3] == n) {
+					return true;
 				}
-				if (cont == 4) {
+				
+				// Diagonal hacia arriba
+				if(i - 3 >= 0 && j + 3 < columnas &&
+						tablero[i][j] == n &&
+						tablero[i - 1][j + 1] == n &&
+						tablero[i - 2][j + 2] == n &&
+						tablero[i - 3][j + 3] == n) {
 					return true;
 				}
 			}
-			cont = 0;
 		}
-
-		return false;
-	}
-
-
-	public static boolean detectarDiagonal(int n) {
-	    int cont = 0;
-	    // Diagonal desde superior izquierda hasta inferior derecha
-	    for (int tamaño = 0; tamaño < tablero.length + tablero[0].length - 1; tamaño++) {
-	        for (int i = 0; i < tablero.length; i++) {
-	            for (int j = 0; j < tablero[0].length; j++) {
-	                if (i + j == tamaño) {
-	                    if (tablero[i][j] == n) {
-	                        cont++;
-	                    } else {
-	                        cont = 0;
-	                    }
-	                    if (cont == 4) {
-	                        return true;
-	                    }
-	                }
-	            }
-	        }
-	        cont = 0;
-	    }
-
-	 // Diagonales desde superior derecha hasta inferior izquierda
-	    for (int tamaño = 1 - tablero.length; tamaño < tablero[0].length; tamaño++) {
-	        for (int i = 0; i < tablero.length; i++) {
-	            for (int j = 0; j < tablero[0].length; j++) {
-	                if (i - j == tamaño) { 
-	                    if (tablero[i][j] == n) {
-	                        cont++;
-	                    } else {
-	                        cont = 0;
-	                    }
-	                    if (cont == 4) {
-	                        return true;
-	                    }
-	                }
-	            }
-	        }
-	        cont = 0;
-	    }
+		
 		return false;
 	}
 }
