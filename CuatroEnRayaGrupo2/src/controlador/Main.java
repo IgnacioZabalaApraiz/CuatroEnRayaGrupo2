@@ -1,32 +1,63 @@
 package controlador;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
 	private static int[][] tablero = { 
-			{0,1,0,1,0,1},
-			{1,0,1,0,1,0},
-			{1,1,0,0,0,1},
-			{0,0,0,1,1,1},
-			{1,1,0,1,1,0},
-			{0,1,0,1,0,1}
+			{0,0,0,0,0,0},
+			{0,0,0,0,0,0},
+			{0,0,0,0,0,0},
+			{0,0,0,0,0,0},
+			{0,0,0,0,0,0},
+			{0,0,0,0,0,0}
 			
 	};
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		System.out.println("Tablero inicial:");
+		System.out.println();
 		for (int i = 0; i < tablero.length; i++) {
 			System.out.println(Arrays.toString(tablero[i]));
 		}
 		
 		long inicio = System.nanoTime();
 		
-		if (detectarCuatroEnRaya(1)) {
-		 	System.out.println("Has ganado.");
-		} else {
-			System.out.println("Derrota.");
-		}
+		
+		int turnoJugador = turnoJugador();
+		 Scanner scanner = new Scanner(System.in);
+
+		// Bucle para verificar si está completo el tablero
+		 while (!juegoCompleto()) {
+		     
+			 System.out.println();
+		     System.out.println("Turno del jugador " + turnoJugador + ":");
+		     
+		     
+		     int columna = obtenerColumna(scanner);
+
+		     // Colocar ficha del jugador actual en la columna seleccionada
+		     
+		     if (colocarFicha(columna, turnoJugador)) {
+		    	 System.out.println();
+		         System.out.println("Tablero después del turno del jugador " + turnoJugador + ":");
+		         imprimirTablero();
+
+		         if (juegoCompleto()) {
+		             break; 
+		         }
+
+		         // Le toca al siguiente jugador
+		         turnoJugador = (turnoJugador == 1) ? 2 : 1;
+		         
+		     }
+		 }
+		 
+		 System.out.println(detectarCuatroEnRaya(1) ? "El jugador 1 ha ganado." : "El jugador 2 ha ganado.");
+
+	    
         long fin = System.nanoTime();
 
         long tiempoEjecucion = fin - inicio;
@@ -36,6 +67,7 @@ public class Main {
 	}
 
 	public static boolean detectarCuatroEnRaya(int n) {
+		
 		int filas = tablero.length;
 		int columnas = tablero[0].length;
 		
@@ -89,4 +121,52 @@ public class Main {
 		
 		return false;
 	}
+	 public static boolean colocarFicha(int columna, int jugador) {
+		 
+	        // Verificar si la columna es válida
+		 
+	        if (columna < 0 || columna >= tablero[0].length) {
+	            System.out.println("Columna inválida. La ficha no se puede colocar en esa columna.");
+	            return false;
+	        }
+
+	        // El tablero se dibujará desde abajo hacia arriba 
+	        
+	        for (int fila = tablero.length - 1; fila >= 0; fila--) {
+	        	
+	            if (tablero[fila][columna] == 0) {
+	            	// Si se encuentra una celda vacía se colocará la ficha del jugador actual
+	                tablero[fila][columna] = jugador;
+	                return true;
+	            }
+	        }
+
+	        System.out.println("La columna está llena. No se pudo colocar la ficha.");
+	        return false;
+	    }
+
+	    public static void imprimirTablero() {
+	    	
+	        for (int i = 0; i < tablero.length; i++) {
+	            System.out.println(Arrays.toString(tablero[i]));
+	        }
+	    }
+
+	    public static int obtenerColumna(Scanner scanner) {
+	    	
+	        System.out.print("Ingrese el número de columna donde desea colocar la ficha (0-5): ");
+	        return scanner.nextInt();
+	    }
+	    
+	    public static boolean juegoCompleto() {
+	    	
+	        boolean ganador = detectarCuatroEnRaya(1) || detectarCuatroEnRaya(2);
+	        return ganador;
+	    }
+	    
+	    // Método para decidir quién empieza primero
+	    public static int turnoJugador() {
+	    	
+	    	return (int)(Math.random()*2)+1;
+	    }
 }
