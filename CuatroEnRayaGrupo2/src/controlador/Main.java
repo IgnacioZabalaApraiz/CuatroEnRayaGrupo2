@@ -3,67 +3,26 @@ package controlador;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import vista.VentanaTablero;
+
 public class Main {
-	private static int[][] tablero = { 
-			{0,0,0,0,0,0},
-			{0,0,0,0,0,0},
-			{0,0,0,0,0,0},
-			{0,0,0,0,0,0},
-			{0,0,0,0,0,0},
-			{0,0,0,0,0,0}
+	public static int[][] tablero = { 
+			{0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0}
 			
 	};
+	public static VentanaTablero vt;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		System.out.println("Tablero inicial:");
-		System.out.println();
-		for (int i = 0; i < tablero.length; i++) {
-			System.out.println(Arrays.toString(tablero[i]));
-		}
 		
-		long inicio = System.nanoTime();
-		
-		
-		int turnoJugador = turnoJugador();
-		 Scanner scanner = new Scanner(System.in);
-
-		// Bucle para verificar si está completo el tablero
-		 while (!juegoCompleto()) {
-		     
-			 System.out.println();
-		     System.out.println("Turno del jugador " + turnoJugador + ":");
-		     
-		     
-		     int columna = obtenerColumna(scanner);
-
-		     // Colocar ficha del jugador actual en la columna seleccionada
-		     
-		     if (colocarFicha(columna, turnoJugador)) {
-		    	 System.out.println();
-		         System.out.println("Tablero después del turno del jugador " + turnoJugador + ":");
-		         imprimirTablero();
-
-		         if (juegoCompleto()) {
-		             break; 
-		         }
-
-		         // Le toca al siguiente jugador
-		         turnoJugador = (turnoJugador == 1) ? 2 : 1;
-		         
-		     }
-		 }
-		 
-		 System.out.println(detectarCuatroEnRaya(1) ? "El jugador 1 ha ganado." : "El jugador 2 ha ganado.");
-
-	    
-        long fin = System.nanoTime();
-
-        long tiempoEjecucion = fin - inicio;
-        
-        System.out.println("El método tardó " + tiempoEjecucion + " nanosegundos en ejecutarse.");
-
+		vt = new VentanaTablero();
+		vt.setResizable(false);
+		vt.setVisible(true);
 	}
 
 	public static boolean detectarCuatroEnRaya(int n) {
