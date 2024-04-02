@@ -34,7 +34,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 		this.setBackground(new Color(16, 71, 169));
 		tableroIMG = new ImageIcon("imagenes/tablero7x6.png").getImage();
 		timer = new Timer(10, this);
-		setLayout(null);// cuidado con esto
+		setLayout(null);// Para poder poner los elementos en cualquier parte del panel
 
 		textoTurno = new JLabel("Turno del jugador 1");
 		textoTurno.setFont(new Font("Kristen ITC", Font.BOLD, 32));
@@ -71,11 +71,10 @@ public class TableroPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
+	
+	public void paint(Graphics g) {// Se ejecuta al principio al iniciar la ventana y luego cada vez que se ejecuta el repaint()
 
-	// Se ejecuta al principio al iniciar la ventana y luego cada vez que se ejecuta el repaint()
-	public void paint(Graphics g) {
-
-		super.paint(g); // necesario para sobreescribir cada frame
+		super.paint(g); // necesario para sobrescribir cada frame
 
 		Graphics2D g2D = (Graphics2D) g;
 
@@ -101,10 +100,8 @@ public class TableroPanel extends JPanel implements ActionListener {
 	    g2D.drawString(textoGanador, 150, 400);
 	}
 	
-	// Este metodo se ejecuta automaticamente dependiendo de la configuracion del Timer
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {// Este metodo se ejecuta automaticamente dependiendo de la configuracion del Timer
 		int pos = 5;
 		for (int i = 0; i < Main.tablero.length; i++) {
 			if (Main.tablero[i][x] != 0) {
@@ -113,23 +110,15 @@ public class TableroPanel extends JPanel implements ActionListener {
 			}
 		}
 		if (fichas[contMovimientos] != null && y < 130 * pos) {
-			y = y + yVelocidad;
+			y += yVelocidad;
 		} else if (fichas[contMovimientos] != null && y >= 130 * pos) {// si termina la animacion se introduce la ficha en el array tablero
 			if (contMovimientos % 2 == 0) {
 				Main.tablero[pos][x] = 1;
 			} else {
 				Main.tablero[pos][x] = 2;
 			}
-			// INTRODUCIR AUDIO DE LAS FICHAS
-			try {
-				AudioInputStream audioInputStream = AudioSystem
-						.getAudioInputStream(new File("imagenes/audioFicha.wav"));
-				Clip clip = AudioSystem.getClip();
-				clip.open(audioInputStream);
-				clip.start();
-			} catch (Exception ex) {
-				System.out.println("Error al reproducir el audio: " + ex.getMessage());
-			}
+
+			reproducirAudio("imagenes/audioFicha.wav");
 			
 			// Detectar si ha habido 4 en raya
 			if (Main.juegoCompleto()) {
@@ -142,8 +131,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 
 	}
 
-	// Cambiar el nombre del jugador que le toca cada turno
-	public void cambiarNombre() {
+	public void cambiarNombre() {// Cambiar el nombre del jugador que le toca cada turno
 		if (contMovimientos % 2 == 0) {
 			textoTurno.setText("Turno del jugador 1");
 		} else {
@@ -159,4 +147,14 @@ public class TableroPanel extends JPanel implements ActionListener {
 		}
 		timer.stop();
 	}
+	
+	private void reproducirAudio(String path) {
+        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path))) {
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error al reproducir el audio: " + ex.getMessage());
+        }
+    }
 }

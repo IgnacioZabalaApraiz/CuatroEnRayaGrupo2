@@ -15,7 +15,6 @@ public class VentanaTablero extends JFrame {
 		this.add(panel);
 		this.pack();
 		this.setLocationRelativeTo(null);
-		this.setVisible(true);
 	}
 
 }
