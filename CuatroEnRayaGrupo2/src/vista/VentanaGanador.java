@@ -1,7 +1,6 @@
 package vista;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,7 +15,6 @@ import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import controlador.Main;
 import javax.swing.JLabel;
@@ -35,7 +33,9 @@ public class VentanaGanador extends JFrame {
         fondo = new ImageIcon("imagenes/cuadroGanador.png").getImage();
         
         contentPane = new JPanel() {
-            @Override
+			private static final long serialVersionUID = 1L;
+			
+			@Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;

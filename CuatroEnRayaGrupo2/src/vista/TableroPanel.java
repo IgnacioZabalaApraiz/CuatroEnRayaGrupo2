@@ -171,14 +171,13 @@ public class TableroPanel extends JPanel implements ActionListener {
 	public void ventanaGanador(boolean victoria) {
 		if (contMovimientos % 2 == 0 && victoria) {
 			Main.vg = new VentanaGanador("Jugador 1", true);
-			Main.vg.setVisible(true);
 		} else if (victoria) {
 			Main.vg = new VentanaGanador("Jugador 2", true);
-			Main.vg.setVisible(true);
 		} else {
 			Main.vg = new VentanaGanador("texto", false);
-			Main.vg.setVisible(true);
 		}
+		Main.vg.setResizable(false);
+		Main.vg.setVisible(true);
 	}
 	
 	private void reproducirAudio(String path) {
