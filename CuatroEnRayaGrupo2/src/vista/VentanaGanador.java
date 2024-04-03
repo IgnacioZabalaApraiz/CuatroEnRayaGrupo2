@@ -8,7 +8,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -41,6 +45,8 @@ public class VentanaGanador extends JFrame {
         
         contentPane.setLayout(null); // Usamos un layout nulo para poder establecer la posición de los componentes manualmente
         setContentPane(contentPane);
+        
+        reproducirAudio("imagenes/audioVictoria.wav");
 
         if (victoria) {
             JLabel textoGanador = new JLabel("EL GANADOR ES:");
@@ -77,4 +83,14 @@ public class VentanaGanador extends JFrame {
         boton.setBounds(xBoton, 137, boton.getPreferredSize().width, 35);
         contentPane.add(boton);
 	}
+	
+	private void reproducirAudio(String path) {
+        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path))) {
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error al reproducir el audio: " + ex.getMessage());
+        }
+    }
 }
