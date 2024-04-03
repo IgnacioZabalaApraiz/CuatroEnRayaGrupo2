@@ -28,7 +28,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 	private String textoGanador = "";
 	private int contMovimientos = 0;
 	private Timer timer;
-	private int yVelocidad = 25;
+	private int yVelocidad = 60;
 	private int x = 0;
 	private int y = 0;
 
@@ -69,22 +69,20 @@ public class TableroPanel extends JPanel implements ActionListener {
 		// Bucle para crear los botones
 		for (int i = 0; i < COLUMNAS; i++) {
 			final int index = i;
-			JButton btnNewButton = new JButton(String.valueOf(i + 1));
-			btnNewButton.setFont(new Font("Kristen ITC", Font.BOLD, ANCHO_FICHA / 4));
-			btnNewButton.setForeground(new Color(255, 255, 255));
-			btnNewButton.setBackground(new Color(45, 109, 223));
-			btnNewButton.addMouseListener(new MouseAdapter() {
+			BotonPersonalizado boton = new BotonPersonalizado("");// Boton sin texto
+			boton.setFont(new Font("Kristen ITC", Font.BOLD, ANCHO_FICHA / 4));
+			boton.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					generarFicha(index);
 				}
 			});
 			if (COLUMNAS != 17) {
-				btnNewButton.setBounds(15 + ANCHO_FICHA * i, ALTO_PANEL - 150, 100, 60);
+				boton.setBounds(15 + ANCHO_FICHA * i, ALTO_PANEL - 150, 100, 60);
 			} else {
-				btnNewButton.setBounds(2 + ANCHO_FICHA * i, ALTO_PANEL - 150, 50, 40);
+				boton.setBounds(2 + ANCHO_FICHA * i, ALTO_PANEL - 150, 50, 40);
 			}
-			add(btnNewButton);
+			add(boton);
 		}
 		timer.start();
 	}
