@@ -22,6 +22,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 	private final int ANCHO_FICHA;
 	private Image[] fichas;
 	private Image tableroIMG;
+	private Image fondo;
 	private Image fichaAmarilla;
 	private Image fichaRoja;
 	private JLabel textoTurno;
@@ -46,13 +47,14 @@ public class TableroPanel extends JPanel implements ActionListener {
 			fichaAmarilla = new ImageIcon("imagenes/fichaAmarillaPequena.png").getImage();
 			fichaRoja = new ImageIcon("imagenes/fichaRojaPequena.png").getImage();
 		}
+		fondo = new ImageIcon("imagenes/fondo" + COLUMNAS + "x" + FILAS + ".png").getImage();
 		tableroIMG = new ImageIcon("imagenes/tablero" + COLUMNAS + "x" + FILAS + ".png").getImage();
 		ANCHO_PANEL = COLUMNAS * ANCHO_FICHA;
 		ALTO_PANEL = FILAS * ANCHO_FICHA + 170;
 		fichas = new Image[COLUMNAS * FILAS + 1];
 		
 		this.setPreferredSize(new Dimension(ANCHO_PANEL, ALTO_PANEL));
-		this.setBackground(new Color(16, 71, 169));
+		this.setBackground(new Color(45, 109, 223));
 		timer = new Timer(10, this);
 		setLayout(null);// Para poder poner los elementos en cualquier parte del panel
 
@@ -105,6 +107,8 @@ public class TableroPanel extends JPanel implements ActionListener {
 
 		Graphics2D g2D = (Graphics2D) g;
 
+		// Se pinta el fondo
+		g2D.drawImage(fondo, 0, 0, null);
 		// Se pintan las fichas que estan guardadas en el array tablero
 		for (int i = 0; i < Main.tablero.length; i++) {
 			for (int j = 0; j < Main.tablero[0].length; j++) {
