@@ -22,13 +22,14 @@ public class TableroPanel extends JPanel implements ActionListener {
 	private final int ANCHO_FICHA;
 	private Image[] fichas;
 	private Image tableroIMG;
+	private Image fondo;
 	private Image fichaAmarilla;
 	private Image fichaRoja;
 	private JLabel textoTurno;
 	private String textoGanador = "";
 	private int contMovimientos = 0;
 	private Timer timer;
-	private int yVelocidad = 25;
+	private int yVelocidad = 60;
 	private int x = 0;
 	private int y = 0;
 
@@ -46,13 +47,14 @@ public class TableroPanel extends JPanel implements ActionListener {
 			fichaAmarilla = new ImageIcon("imagenes/fichaAmarillaPequena.png").getImage();
 			fichaRoja = new ImageIcon("imagenes/fichaRojaPequena.png").getImage();
 		}
+		fondo = new ImageIcon("imagenes/fondo" + COLUMNAS + "x" + FILAS + ".png").getImage();
 		tableroIMG = new ImageIcon("imagenes/tablero" + COLUMNAS + "x" + FILAS + ".png").getImage();
 		ANCHO_PANEL = COLUMNAS * ANCHO_FICHA;
 		ALTO_PANEL = FILAS * ANCHO_FICHA + 170;
 		fichas = new Image[COLUMNAS * FILAS + 1];
 		
 		this.setPreferredSize(new Dimension(ANCHO_PANEL, ALTO_PANEL));
-		this.setBackground(new Color(16, 71, 169));
+		this.setBackground(new Color(45, 109, 223));
 		timer = new Timer(10, this);
 		setLayout(null);// Para poder poner los elementos en cualquier parte del panel
 
@@ -69,22 +71,20 @@ public class TableroPanel extends JPanel implements ActionListener {
 		// Bucle para crear los botones
 		for (int i = 0; i < COLUMNAS; i++) {
 			final int index = i;
-			JButton btnNewButton = new JButton(String.valueOf(i + 1));
-			btnNewButton.setFont(new Font("Kristen ITC", Font.BOLD, ANCHO_FICHA / 4));
-			btnNewButton.setForeground(new Color(255, 255, 255));
-			btnNewButton.setBackground(new Color(45, 109, 223));
-			btnNewButton.addMouseListener(new MouseAdapter() {
+			BotonPersonalizado boton = new BotonPersonalizado("");// Boton sin texto
+			boton.setFont(new Font("Kristen ITC", Font.BOLD, ANCHO_FICHA / 4));
+			boton.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					generarFicha(index);
 				}
 			});
 			if (COLUMNAS != 17) {
-				btnNewButton.setBounds(15 + ANCHO_FICHA * i, ALTO_PANEL - 150, 100, 60);
+				boton.setBounds(15 + ANCHO_FICHA * i, ALTO_PANEL - 150, 100, 60);
 			} else {
-				btnNewButton.setBounds(2 + ANCHO_FICHA * i, ALTO_PANEL - 150, 50, 40);
+				boton.setBounds(2 + ANCHO_FICHA * i, ALTO_PANEL - 150, 50, 40);
 			}
-			add(btnNewButton);
+			add(boton);
 		}
 		timer.start();
 	}
@@ -107,6 +107,8 @@ public class TableroPanel extends JPanel implements ActionListener {
 
 		Graphics2D g2D = (Graphics2D) g;
 
+		// Se pinta el fondo
+		g2D.drawImage(fondo, 0, 0, null);
 		// Se pintan las fichas que estan guardadas en el array tablero
 		for (int i = 0; i < Main.tablero.length; i++) {
 			for (int j = 0; j < Main.tablero[0].length; j++) {

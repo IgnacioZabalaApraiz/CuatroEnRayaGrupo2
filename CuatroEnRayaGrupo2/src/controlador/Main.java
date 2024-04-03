@@ -36,7 +36,6 @@ public class Main {
 			}
 		}
 		vt = new VentanaTablero();
-		vt.setResizable(false);
 		vt.setVisible(true);
 	}
 
