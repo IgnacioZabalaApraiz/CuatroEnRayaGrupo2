@@ -3,11 +3,13 @@ package controlador;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import vista.VentanaGanador;
 import vista.VentanaTablero;
 
 public class Main {
 	public static int[][] tablero;
 	public static VentanaTablero vt;
+	public static VentanaGanador vg;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

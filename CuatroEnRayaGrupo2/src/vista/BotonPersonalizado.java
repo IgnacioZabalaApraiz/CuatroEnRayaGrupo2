@@ -38,7 +38,7 @@ public class BotonPersonalizado extends JButton {
         }
 
         // Dibujar un fondo redondeado
-        g2d.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 120, 120));
+        g2d.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         super.paintComponent(g2d);
         g2d.dispose();
     }

@@ -26,10 +26,9 @@ public class TableroPanel extends JPanel implements ActionListener {
 	private Image fichaAmarilla;
 	private Image fichaRoja;
 	private JLabel textoTurno;
-	private String textoGanador = "";
 	private int contMovimientos = 0;
 	private Timer timer;
-	private int yVelocidad = 60;
+	private int yVelocidad;
 	private int x = 0;
 	private int y = 0;
 
@@ -42,10 +41,12 @@ public class TableroPanel extends JPanel implements ActionListener {
 			ANCHO_FICHA = 130;
 			fichaAmarilla = new ImageIcon("imagenes/fichaAmarilla.png").getImage();
 			fichaRoja = new ImageIcon("imagenes/fichaRoja.png").getImage();
+			yVelocidad = 65;// Avanzara 1/2 ficha * el Timer
 		} else {
 			ANCHO_FICHA = 54;
 			fichaAmarilla = new ImageIcon("imagenes/fichaAmarillaPequena.png").getImage();
 			fichaRoja = new ImageIcon("imagenes/fichaRojaPequena.png").getImage();
+			yVelocidad = 54;// Avanzara 1 ficha * el Timer
 		}
 		fondo = new ImageIcon("imagenes/fondo" + COLUMNAS + "x" + FILAS + ".png").getImage();
 		tableroIMG = new ImageIcon("imagenes/tablero" + COLUMNAS + "x" + FILAS + ".png").getImage();
@@ -55,7 +56,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 		
 		this.setPreferredSize(new Dimension(ANCHO_PANEL, ALTO_PANEL));
 		this.setBackground(new Color(45, 109, 223));
-		timer = new Timer(10, this);
+		timer = new Timer(10, this);// Cada 10 ms
 		setLayout(null);// Para poder poner los elementos en cualquier parte del panel
 
 		textoTurno = new JLabel("Turno del jugador 1");
@@ -80,9 +81,9 @@ public class TableroPanel extends JPanel implements ActionListener {
 				}
 			});
 			if (COLUMNAS != 17) {
-				boton.setBounds(15 + ANCHO_FICHA * i, ALTO_PANEL - 150, 100, 60);
+				boton.setBounds(15 + ANCHO_FICHA * i, ALTO_PANEL - 150, 100, 30);
 			} else {
-				boton.setBounds(2 + ANCHO_FICHA * i, ALTO_PANEL - 150, 50, 40);
+				boton.setBounds(2 + ANCHO_FICHA * i, ALTO_PANEL - 150, 50, 20);
 			}
 			add(boton);
 		}
@@ -125,10 +126,6 @@ public class TableroPanel extends JPanel implements ActionListener {
 		g2D.drawImage(fichas[contMovimientos], x * ANCHO_FICHA, y, null);
 		// Se pinta el tablero
 		g2D.drawImage(tableroIMG, 0, 0, null);
-		// Se pinta el texto del ganador
-		g2D.setFont(new Font("Kristen ITC", Font.BOLD, 48));
-	    g2D.setColor(new Color(255, 255, 255));
-	    g2D.drawString(textoGanador, 150, 400);
 	}
 	
 	@Override
@@ -153,7 +150,8 @@ public class TableroPanel extends JPanel implements ActionListener {
 			
 			// Detectar si ha habido 4 en raya
 			if (Main.juegoCompleto()) {
-				textoGanador();
+				ventanaGanador(true);
+				timer.stop();
 			}
 			contMovimientos++;
 			cambiarNombre();
@@ -170,13 +168,17 @@ public class TableroPanel extends JPanel implements ActionListener {
 		}
 	}
 	
-	public void textoGanador() {
-		if (contMovimientos % 2 == 0) {
-			textoGanador = "GANA EL JUGADOR 1";
+	public void ventanaGanador(boolean victoria) {
+		if (contMovimientos % 2 == 0 && victoria) {
+			Main.vg = new VentanaGanador("Jugador 1", true);
+			Main.vg.setVisible(true);
+		} else if (victoria) {
+			Main.vg = new VentanaGanador("Jugador 2", true);
+			Main.vg.setVisible(true);
 		} else {
-			textoGanador = "GANA EL JUGADOR 2";
+			Main.vg = new VentanaGanador("texto", false);
+			Main.vg.setVisible(true);
 		}
-		timer.stop();
 	}
 	
 	private void reproducirAudio(String path) {
