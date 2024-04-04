@@ -53,7 +53,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 		ANCHO_PANEL = COLUMNAS * ANCHO_FICHA;
 		ALTO_PANEL = FILAS * ANCHO_FICHA + 170;
 		fichas = new Image[COLUMNAS * FILAS + 1];
-		
+
 		this.setPreferredSize(new Dimension(ANCHO_PANEL, ALTO_PANEL));
 		this.setBackground(new Color(45, 109, 223));
 		timer = new Timer(10, this);// Cada 10 ms
@@ -89,8 +89,24 @@ public class TableroPanel extends JPanel implements ActionListener {
 		}
 		timer.start();
 	}
-	
+
 	public void generarFicha(int i) {
+		boolean tableroLleno = Main.tableroLleno(); 
+		y = 0;
+		x = i; // Se queda seleccionada la columna concreta
+		// Verifica si el tablero no está lleno y si hay espacio en la columna
+		if (!tableroLleno && Main.tablero[0][x] == 0) {
+			if (contMovimientos % 2 == 0) {
+				fichas[contMovimientos] = fichaAmarilla;
+			} else {
+				fichas[contMovimientos] = fichaRoja;
+			}
+		}
+	}
+	
+	/*
+	 * MÉTODO ANTIGUO, EL MÉTODO DE ARRIBA ES SOLO PARA COMPROBAR EL MÉTODO tableroLleno funcione correctamente.
+	 * public void generarFicha(int i) {
 		y = 0;
 		x = i;// Se queda seleccionada la columna concreta
 		if (Main.tablero[0][x] == 0) {// Solo se genere una ficha si quedan huecos en la columna
@@ -101,8 +117,10 @@ public class TableroPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
-	public void paint(Graphics g) {// Se ejecuta al principio al iniciar la ventana y luego cada vez que se ejecuta el repaint()
+	 */
+
+	public void paint(Graphics g) {// Se ejecuta al principio al iniciar la ventana y luego cada vez que se ejecuta
+									// el repaint()
 
 		super.paint(g); // Necesario para sobrescribir cada frame
 
@@ -114,11 +132,9 @@ public class TableroPanel extends JPanel implements ActionListener {
 		for (int i = 0; i < Main.tablero.length; i++) {
 			for (int j = 0; j < Main.tablero[0].length; j++) {
 				if (Main.tablero[i][j] == 1) {
-					g2D.drawImage(fichaAmarilla, j * ANCHO_FICHA,
-							i * ANCHO_FICHA, null);
+					g2D.drawImage(fichaAmarilla, j * ANCHO_FICHA, i * ANCHO_FICHA, null);
 				} else if (Main.tablero[i][j] == 2) {
-					g2D.drawImage(fichaRoja, j * ANCHO_FICHA,
-							i * ANCHO_FICHA, null);
+					g2D.drawImage(fichaRoja, j * ANCHO_FICHA, i * ANCHO_FICHA, null);
 				}
 			}
 		}
@@ -127,9 +143,10 @@ public class TableroPanel extends JPanel implements ActionListener {
 		// Se pinta el tablero
 		g2D.drawImage(tableroIMG, 0, 0, null);
 	}
-	
+
 	@Override
-	public void actionPerformed(ActionEvent e) {// Este metodo se ejecuta automaticamente dependiendo de la configuracion del Timer
+	public void actionPerformed(ActionEvent e) {// Este metodo se ejecuta automaticamente dependiendo de la
+												// configuracion del Timer
 		int pos = FILAS - 1;
 		for (int i = 0; i < FILAS; i++) {
 			if (Main.tablero[i][x] != 0) {
@@ -139,7 +156,8 @@ public class TableroPanel extends JPanel implements ActionListener {
 		}
 		if (fichas[contMovimientos] != null && y < ANCHO_FICHA * pos) {
 			y += yVelocidad;
-		} else if (fichas[contMovimientos] != null && y >= ANCHO_FICHA * pos) {// Si termina la animacion se introduce la ficha en el array tablero
+		} else if (fichas[contMovimientos] != null && y >= ANCHO_FICHA * pos) {// Si termina la animacion se introduce
+																				// la ficha en el array tablero
 			if (contMovimientos % 2 == 0) {
 				Main.tablero[pos][x] = 1;
 			} else {
@@ -147,7 +165,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 			}
 
 			reproducirAudio("imagenes/audioFicha.wav");
-			
+
 			// Detectar si ha habido 4 en raya
 			if (Main.juegoCompleto()) {
 				ventanaGanador(true);
@@ -167,7 +185,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 			textoTurno.setText("Turno del jugador 2");
 		}
 	}
-	
+
 	public void ventanaGanador(boolean victoria) {
 		if (contMovimientos % 2 == 0 && victoria) {
 			Main.vg = new VentanaGanador("Jugador 1", true);
@@ -179,14 +197,14 @@ public class TableroPanel extends JPanel implements ActionListener {
 		Main.vg.setResizable(false);
 		Main.vg.setVisible(true);
 	}
-	
+
 	private void reproducirAudio(String path) {
-        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path))) {
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception ex) {
-            System.out.println("Error al reproducir el audio: " + ex.getMessage());
-        }
-    }
+		try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path))) {
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		} catch (Exception ex) {
+			System.out.println("Error al reproducir el audio: " + ex.getMessage());
+		}
+	}
 }

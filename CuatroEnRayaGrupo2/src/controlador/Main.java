@@ -133,4 +133,18 @@ public class Main {
 
 		return (int) (Math.random() * 2) + 1;
 	}
+	public static boolean tableroLleno() {
+	    for (int i = 0; i < tablero.length; i++) {
+
+	        for (int j = 0; j < tablero[i].length; j++) {
+	            if (tablero[i][j] == 0) {
+	                return false;
+	            }
+	        }
+	    }
+	    // Si no se encontraron celdas vacías, el tablero está lleno
+	    System.out.println("El tablero está lleno.");
+	    return true;
+	}
+
 }
