@@ -1,44 +1,22 @@
 package controlador;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 import vista.VentanaGanador;
+import vista.VentanaInicio;
 import vista.VentanaTablero;
 
 public class Main {
 	public static int[][] tablero;
 	public static VentanaTablero vt;
 	public static VentanaGanador vg;
+	public static VentanaInicio vi;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		System.out.println("Elige la dificultad (facil, normal o dificil):");
-		Scanner sc = new Scanner(System.in);
-		String resp = sc.nextLine();
-		switch (resp) {
-		case "facil":
-			tablero = new int[4][5];
-			break;
-		case "normal":
-			tablero = new int[6][7];
-			break;
-		case "dificil":
-			tablero = new int[16][17];
-			break;
-		default:
-			System.out.println("Error al elegir dificultad. Dificultad normal elegida por defecto.");
-			tablero = new int[6][7];
-		}
-		// Se rellena el tablero de 0
-		for (int i = 0; i < tablero.length; i++) {
-			for (int j = 0; j < tablero[i].length; j++) {
-				tablero[i][j] = 0;
-			}
-		}
-		vt = new VentanaTablero();
-		vt.setVisible(true);
+		vi = new VentanaInicio();
+		vi.setVisible(true);
 	}
 
 	public static boolean detectarCuatroEnRaya(int n) {
@@ -116,12 +94,6 @@ public class Main {
 		}
 	}
 
-	public static int obtenerColumna(Scanner scanner) {
-
-		System.out.print("Ingrese el número de columna donde desea colocar la ficha (0-5): ");
-		return scanner.nextInt();
-	}
-
 	public static boolean juegoCompleto() {
 
 		boolean ganador = detectarCuatroEnRaya(1) || detectarCuatroEnRaya(2);
@@ -133,6 +105,7 @@ public class Main {
 
 		return (int) (Math.random() * 2) + 1;
 	}
+	
 	public static boolean tableroLleno() {
 	    for (int i = 0; i < tablero.length; i++) {
 

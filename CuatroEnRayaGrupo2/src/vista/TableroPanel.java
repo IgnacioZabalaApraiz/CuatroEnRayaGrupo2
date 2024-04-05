@@ -23,29 +23,32 @@ public class TableroPanel extends JPanel implements ActionListener {
 	private Image[] fichas;
 	private Image tableroIMG;
 	private Image fondo;
-	private Image fichaAmarilla;
-	private Image fichaRoja;
+	private Image ficha1;
+	private Image ficha2;
 	private JLabel textoTurno;
+	private JLabel nombreTurno;
 	private int contMovimientos = 0;
 	private Timer timer;
 	private int yVelocidad;
 	private int x = 0;
 	private int y = 0;
+	private String nombre1;
+	private String nombre2;
 
 	// Constructor
-	public TableroPanel() {
+	public TableroPanel(String jugador1, String jugador2, String color1, String color2) {
 		// Setear las constantes dependiendo del tamaño del tablero
 		COLUMNAS = Main.tablero[0].length;
 		FILAS = Main.tablero.length;
 		if (COLUMNAS != 17) {
 			ANCHO_FICHA = 130;
-			fichaAmarilla = new ImageIcon("imagenes/fichaAmarilla.png").getImage();
-			fichaRoja = new ImageIcon("imagenes/fichaRoja.png").getImage();
+			ficha1 = new ImageIcon("imagenes/ficha" + color1 + ".png").getImage();
+			ficha2 = new ImageIcon("imagenes/ficha" + color2 + ".png").getImage();
 			yVelocidad = 65;// Avanzara 1/2 ficha * el Timer
 		} else {
 			ANCHO_FICHA = 54;
-			fichaAmarilla = new ImageIcon("imagenes/fichaAmarillaPequena.png").getImage();
-			fichaRoja = new ImageIcon("imagenes/fichaRojaPequena.png").getImage();
+			ficha1 = new ImageIcon("imagenes/ficha" + color1 + "Pequena.png").getImage();
+			ficha2 = new ImageIcon("imagenes/ficha" + color2 + "Pequena.png").getImage();
 			yVelocidad = 54;// Avanzara 1 ficha * el Timer
 		}
 		fondo = new ImageIcon("imagenes/fondo" + COLUMNAS + "x" + FILAS + ".png").getImage();
@@ -53,21 +56,26 @@ public class TableroPanel extends JPanel implements ActionListener {
 		ANCHO_PANEL = COLUMNAS * ANCHO_FICHA;
 		ALTO_PANEL = FILAS * ANCHO_FICHA + 170;
 		fichas = new Image[COLUMNAS * FILAS + 1];
+		
+		nombre1 = jugador1;
+		nombre2 = jugador2;
 
 		this.setPreferredSize(new Dimension(ANCHO_PANEL, ALTO_PANEL));
 		this.setBackground(new Color(45, 109, 223));
 		timer = new Timer(10, this);// Cada 10 ms
 		setLayout(null);// Para poder poner los elementos en cualquier parte del panel
 
-		textoTurno = new JLabel("Turno del jugador 1");
-		textoTurno.setFont(new Font("Kristen ITC", Font.BOLD, 32));
+		textoTurno = new JLabel("Turno de");
+		textoTurno.setFont(new Font("Kristen ITC", Font.BOLD, 18));
 		textoTurno.setForeground(new Color(255, 255, 255));
-		if (COLUMNAS == 5) {
-			textoTurno.setBounds(150, ALTO_PANEL - 90, 372, 91);
-		} else {
-			textoTurno.setBounds(300, ALTO_PANEL - 90, 372, 91);
-		}
+		textoTurno.setBounds((ANCHO_PANEL - textoTurno.getPreferredSize().width) / 2, ALTO_PANEL - 120, 372, 91);
 		add(textoTurno);
+		
+		nombreTurno = new JLabel(nombre1);
+		nombreTurno.setFont(new Font("Kristen ITC", Font.BOLD, 32));
+		nombreTurno.setForeground(new Color(255, 255, 255));
+		nombreTurno.setBounds((ANCHO_PANEL - nombreTurno.getPreferredSize().width) / 2, ALTO_PANEL - 80, 372, 91);
+		add(nombreTurno);
 
 		// Bucle para crear los botones
 		for (int i = 0; i < COLUMNAS; i++) {
@@ -97,9 +105,9 @@ public class TableroPanel extends JPanel implements ActionListener {
 		// Verifica si el tablero no está lleno y si hay espacio en la columna
 		if (!tableroLleno && Main.tablero[0][x] == 0) {
 			if (contMovimientos % 2 == 0) {
-				fichas[contMovimientos] = fichaAmarilla;
+				fichas[contMovimientos] = ficha1;
 			} else {
-				fichas[contMovimientos] = fichaRoja;
+				fichas[contMovimientos] = ficha2;
 			}
 		}
 	}
@@ -132,9 +140,9 @@ public class TableroPanel extends JPanel implements ActionListener {
 		for (int i = 0; i < Main.tablero.length; i++) {
 			for (int j = 0; j < Main.tablero[0].length; j++) {
 				if (Main.tablero[i][j] == 1) {
-					g2D.drawImage(fichaAmarilla, j * ANCHO_FICHA, i * ANCHO_FICHA, null);
+					g2D.drawImage(ficha1, j * ANCHO_FICHA, i * ANCHO_FICHA, null);
 				} else if (Main.tablero[i][j] == 2) {
-					g2D.drawImage(fichaRoja, j * ANCHO_FICHA, i * ANCHO_FICHA, null);
+					g2D.drawImage(ficha2, j * ANCHO_FICHA, i * ANCHO_FICHA, null);
 				}
 			}
 		}
@@ -166,9 +174,12 @@ public class TableroPanel extends JPanel implements ActionListener {
 
 			reproducirAudio("imagenes/audioFicha.wav");
 
-			// Detectar si ha habido 4 en raya
-			if (Main.juegoCompleto()) {
+			
+			if (Main.juegoCompleto()) {// Detectar si ha habido 4 en raya
 				ventanaGanador(true);
+				timer.stop();
+			} else if (Main.tableroLleno()) {// Detectar si se ha llenado el tablero
+				ventanaGanador(false);
 				timer.stop();
 			}
 			contMovimientos++;
@@ -180,17 +191,17 @@ public class TableroPanel extends JPanel implements ActionListener {
 
 	public void cambiarNombre() {// Cambiar el nombre del jugador que le toca cada turno
 		if (contMovimientos % 2 == 0) {
-			textoTurno.setText("Turno del jugador 1");
+			nombreTurno.setText(nombre1);
 		} else {
-			textoTurno.setText("Turno del jugador 2");
+			nombreTurno.setText(nombre2);
 		}
 	}
 
 	public void ventanaGanador(boolean victoria) {
 		if (contMovimientos % 2 == 0 && victoria) {
-			Main.vg = new VentanaGanador("Jugador 1", true);
+			Main.vg = new VentanaGanador(nombre1, true);
 		} else if (victoria) {
-			Main.vg = new VentanaGanador("Jugador 2", true);
+			Main.vg = new VentanaGanador(nombre2, true);
 		} else {
 			Main.vg = new VentanaGanador("texto", false);
 		}

@@ -17,7 +17,7 @@ public class VentanaTablero extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private TableroPanel panel;
 
-	public VentanaTablero() {
+	public VentanaTablero(String nombre1, String nombre2, String color1, String color2) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
         setLayout(new BorderLayout());
@@ -42,7 +42,7 @@ public class VentanaTablero extends JFrame {
         JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
         innerPanel.add(Box.createHorizontalGlue()); // Espacio horizontal izquierdo
-        panel = new TableroPanel();
+        panel = new TableroPanel(nombre1, nombre2, color1, color2);
         innerPanel.add(panel);
         innerPanel.add(Box.createHorizontalGlue()); // Espacio horizontal derecho
 
