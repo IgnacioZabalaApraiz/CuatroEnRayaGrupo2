@@ -2,6 +2,17 @@ package controlador;
 
 import java.util.Arrays;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+
+import modelo.ListaJugadores;
+
 import vista.VentanaGanador;
 import vista.VentanaInicio;
 import vista.VentanaTablero;
@@ -11,12 +22,40 @@ public class Main {
 	public static VentanaTablero vt;
 	public static VentanaGanador vg;
 	public static VentanaInicio vi;
+	public static ListaJugadores lj;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		try {
+			JAXBContext contexto = JAXBContext.newInstance(ListaJugadores.class);
+			Unmarshaller um = contexto.createUnmarshaller();
+			lj = (ListaJugadores) um.unmarshal(new File("resources/jugadores.xml"));
+
+		} catch (JAXBException e) {
+			System.out.println("Ha habido un error con JAXB");
+			lj = new ListaJugadores();
+		} catch (IllegalArgumentException e) {
+			System.out.println("No se encuentra el archico jugadores.xml. Se creara uno nuevo.");
+			lj = new ListaJugadores();
+		}
 
 		vi = new VentanaInicio();
 		vi.setVisible(true);
+	}
+
+	public static void almacenarJugadores() {
+		try {
+			JAXBContext contexto = JAXBContext.newInstance(ListaJugadores.class);
+			Marshaller m = contexto.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			m.marshal(lj, new FileWriter("resources/jugadores.xml"));
+			System.out.println("Lista de jugadores actualizada y almacenada en el archivo jugadores.xml");
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static boolean detectarCuatroEnRaya(int n) {
@@ -105,19 +144,19 @@ public class Main {
 
 		return (int) (Math.random() * 2) + 1;
 	}
-	
-	public static boolean tableroLleno() {
-	    for (int i = 0; i < tablero.length; i++) {
 
-	        for (int j = 0; j < tablero[i].length; j++) {
-	            if (tablero[i][j] == 0) {
-	                return false;
-	            }
-	        }
-	    }
-	    // Si no se encontraron celdas vacías, el tablero está lleno
-	    System.out.println("El tablero está lleno.");
-	    return true;
+	public static boolean tableroLleno() {
+		for (int i = 0; i < tablero.length; i++) {
+
+			for (int j = 0; j < tablero[i].length; j++) {
+				if (tablero[i][j] == 0) {
+					return false;
+				}
+			}
+		}
+		// Si no se encontraron celdas vacías, el tablero está lleno
+		System.out.println("El tablero está lleno.");
+		return true;
 	}
 
 }

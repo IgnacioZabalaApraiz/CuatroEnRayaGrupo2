@@ -1,16 +1,25 @@
 package modelo;
 
+import jakarta.xml.bind.annotation.*;
+
+@XmlRootElement(name = "jugador") // el elemento raíz se llamará 'Jugador'
+@XmlType(propOrder = { "nombre", "numVictorias", "numEmpates", "numDerrotas", "puntuacion" })
+@XmlAccessorType(XmlAccessType.FIELD)
+
 public class Jugador implements Comparable<Jugador> {
+	@XmlElement(name = "nombre")
 	private String nombre;
-	private String color;
+	@XmlElement(name = "victorias")
 	private int numVictorias;
+	@XmlElement(name = "empates")
 	private int numEmpates;
+	@XmlElement(name = "derrotas")
 	private int numDerrotas;
+	@XmlElement(name = "puntuacion")
 	private int puntuacion = 0;
 
-	public Jugador(String nombre, String color) {
+	public Jugador(String nombre) {
 		this.nombre = nombre;
-		this.color = color;
 	}
 
 	// Método para registrar el resultado de un juego
@@ -22,6 +31,42 @@ public class Jugador implements Comparable<Jugador> {
 		} else { // Derrota
 			numDerrotas++;
 		}
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public int getNumVictorias() {
+		return numVictorias;
+	}
+
+	public void setNumVictorias(int numVictorias) {
+		this.numVictorias = numVictorias;
+	}
+
+	public int getNumEmpates() {
+		return numEmpates;
+	}
+
+	public void setNumEmpates(int numEmpates) {
+		this.numEmpates = numEmpates;
+	}
+
+	public int getNumDerrotas() {
+		return numDerrotas;
+	}
+
+	public void setNumDerrotas(int numDerrotas) {
+		this.numDerrotas = numDerrotas;
+	}
+
+	public void setPuntuacion(int puntuacion) {
+		this.puntuacion = calcularPuntuacion();
 	}
 
 	// Método para calcular la puntuación del jugador
@@ -37,12 +82,14 @@ public class Jugador implements Comparable<Jugador> {
 	// Método para mostrar el nombre y la puntuación del jugador
 	@Override
 	public String toString() {
-		return nombre + ": " + calcularPuntuacion();
+		return "Jugador [nombre=" + nombre + ", numVictorias=" + numVictorias + ", numEmpates=" + numEmpates
+				+ ", numDerrotas=" + numDerrotas + ", puntuacion=" + puntuacion + "]";
 	}
 
 	// Método para comparar las puntuaciones de los jugadores
 	@Override
 	public int compareTo(Jugador otroJugador) {
-		return Integer.compare(this.calcularPuntuacion(), otroJugador.calcularPuntuacion());
+		return Integer.compare(this.puntuacion, otroJugador.puntuacion);
 	}
+
 }
