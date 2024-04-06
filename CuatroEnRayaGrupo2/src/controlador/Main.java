@@ -10,11 +10,12 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
-
+import modelo.Jugador;
 import modelo.ListaJugadores;
 
 import vista.VentanaGanador;
 import vista.VentanaInicio;
+import vista.VentanaResultados;
 import vista.VentanaTablero;
 
 public class Main {
@@ -22,6 +23,7 @@ public class Main {
 	public static VentanaTablero vt;
 	public static VentanaGanador vg;
 	public static VentanaInicio vi;
+	public static VentanaResultados vr;
 	public static ListaJugadores lj;
 
 	public static void main(String[] args) {
@@ -30,6 +32,7 @@ public class Main {
 			JAXBContext contexto = JAXBContext.newInstance(ListaJugadores.class);
 			Unmarshaller um = contexto.createUnmarshaller();
 			lj = (ListaJugadores) um.unmarshal(new File("resources/jugadores.xml"));
+			System.out.println("Lectura de archivos realizada con exito!");
 
 		} catch (JAXBException e) {
 			System.out.println("Ha habido un error con JAXB");
@@ -41,6 +44,28 @@ public class Main {
 
 		vi = new VentanaInicio();
 		vi.setVisible(true);
+	}
+	
+	public static void anadirResultado(String ganador, String perdedor, boolean victoria) {
+		for (Jugador j : lj.getJugadores()) {
+			if (j.getNombre().equals(ganador)) {
+				if (victoria) {
+					j.registrarResultado(1);
+				} else {
+					j.registrarResultado(0);
+				}
+				j.calcularPuntuacion();
+			} else if (j.getNombre().equals(perdedor)) {
+				if (victoria) {
+					j.registrarResultado(2);
+				} else {
+					j.registrarResultado(0);
+				}
+				j.calcularPuntuacion();
+			}
+		}
+		Arrays.sort(lj.getJugadores());
+		
 	}
 
 	public static void almacenarJugadores() {

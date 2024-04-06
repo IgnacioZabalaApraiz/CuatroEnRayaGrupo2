@@ -34,6 +34,8 @@ public class TableroPanel extends JPanel implements ActionListener {
 	private int y = 0;
 	private String nombre1;
 	private String nombre2;
+	private String colorF1;
+	private String colorF2;
 
 	// Constructor
 	public TableroPanel(String jugador1, String jugador2, String color1, String color2) {
@@ -59,6 +61,8 @@ public class TableroPanel extends JPanel implements ActionListener {
 		
 		nombre1 = jugador1;
 		nombre2 = jugador2;
+		colorF1 = color1;
+		colorF2 = color2;
 
 		this.setPreferredSize(new Dimension(ANCHO_PANEL, ALTO_PANEL));
 		this.setBackground(new Color(45, 109, 223));
@@ -199,11 +203,14 @@ public class TableroPanel extends JPanel implements ActionListener {
 
 	public void ventanaGanador(boolean victoria) {
 		if (contMovimientos % 2 == 0 && victoria) {
-			Main.vg = new VentanaGanador(nombre1, true);
+			Main.vg = new VentanaGanador(nombre1, true, nombre1, nombre2, colorF1, colorF2);
+			Main.anadirResultado(nombre1, nombre2, true);
 		} else if (victoria) {
-			Main.vg = new VentanaGanador(nombre2, true);
+			Main.vg = new VentanaGanador(nombre2, true, nombre1, nombre2, colorF1, colorF2);
+			Main.anadirResultado(nombre2, nombre1, true);
 		} else {
-			Main.vg = new VentanaGanador("texto", false);
+			Main.vg = new VentanaGanador("texto", false, nombre1, nombre2, colorF1, colorF2);
+			Main.anadirResultado(nombre1, nombre2, false);
 		}
 		Main.vg.setResizable(false);
 		Main.vg.setVisible(true);

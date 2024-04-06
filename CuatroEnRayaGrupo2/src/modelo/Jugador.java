@@ -17,6 +17,9 @@ public class Jugador implements Comparable<Jugador> {
 	private int numDerrotas;
 	@XmlElement(name = "puntuacion")
 	private int puntuacion = 0;
+	
+	public Jugador() {
+	}
 
 	public Jugador(String nombre) {
 		this.nombre = nombre;
@@ -66,12 +69,14 @@ public class Jugador implements Comparable<Jugador> {
 	}
 
 	public void setPuntuacion(int puntuacion) {
-		this.puntuacion = calcularPuntuacion();
+		this.puntuacion = puntuacion;
 	}
 
 	// Método para calcular la puntuación del jugador
 	public int calcularPuntuacion() {
-		return numVictorias * 3 + numEmpates;
+		int puntuacionCAL = numVictorias * 3 + numEmpates;
+		setPuntuacion(puntuacionCAL);
+		return puntuacionCAL;
 	}
 
 	// Método para obtener la puntuación
@@ -86,10 +91,14 @@ public class Jugador implements Comparable<Jugador> {
 				+ ", numDerrotas=" + numDerrotas + ", puntuacion=" + puntuacion + "]";
 	}
 
-	// Método para comparar las puntuaciones de los jugadores
+	// Método para comparar las puntuaciones de los jugadores (primero el que tenga mayor puntuacion), y si tienen la misma puntuacion comprar por el nombre
 	@Override
 	public int compareTo(Jugador otroJugador) {
-		return Integer.compare(this.puntuacion, otroJugador.puntuacion);
+		int result = otroJugador.getPuntuacion() - this.getPuntuacion();
+		if (result == 0) {
+			result = this.getNombre().compareTo(otroJugador.getNombre());
+		}
+		return result;
 	}
 
 }

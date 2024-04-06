@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cuatroEnRaya>
+    <listaJugadores>
+        <jugador>
+            <nombre>Alberto</nombre>
+            <victorias>3</victorias>
+            <empates>0</empates>
+            <derrotas>2</derrotas>
+            <puntuacion>9</puntuacion>
+        </jugador>
+        <jugador>
+            <nombre>sss</nombre>
+            <victorias>2</victorias>
+            <empates>0</empates>
+            <derrotas>3</derrotas>
+            <puntuacion>6</puntuacion>
+        </jugador>
+        <jugador>
+            <nombre>2</nombre>
+            <victorias>1</victorias>
+            <empates>0</empates>
+            <derrotas>0</derrotas>
+            <puntuacion>3</puntuacion>
+        </jugador>
+        <jugador>
+            <nombre>Ramon</nombre>
+            <victorias>1</victorias>
+            <empates>0</empates>
+            <derrotas>0</derrotas>
+            <puntuacion>3</puntuacion>
+        </jugador>
+        <jugador>
+            <nombre>1</nombre>
+            <victorias>0</victorias>
+            <empates>0</empates>
+            <derrotas>1</derrotas>
+            <puntuacion>0</puntuacion>
+        </jugador>
+        <jugador>
+            <nombre>zzz</nombre>
+            <victorias>0</victorias>
+            <empates>0</empates>
+            <derrotas>1</derrotas>
+            <puntuacion>0</puntuacion>
+        </jugador>
+    </listaJugadores>
+</cuatroEnRaya>

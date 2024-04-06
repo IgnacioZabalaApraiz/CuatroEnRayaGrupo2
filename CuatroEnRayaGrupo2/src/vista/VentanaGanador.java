@@ -26,7 +26,7 @@ public class VentanaGanador extends JFrame {
 	private JPanel contentPane;
 	private Image fondo;
 
-	public VentanaGanador(String nombre, boolean victoria) {
+	public VentanaGanador(String nombre, boolean victoria, String jugador1, String jugador2, String color1, String color2) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 420, 240);
         setLocationRelativeTo(null);
@@ -78,6 +78,8 @@ public class VentanaGanador extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				Main.vt.dispose();
 				Main.vg.dispose();
+				Main.vr = new VentanaResultados(jugador1, jugador2, color1, color2);
+				Main.vr.setVisible(true);
 			}
 		});
         boton.setBounds(xBoton, 137, boton.getPreferredSize().width, 35);

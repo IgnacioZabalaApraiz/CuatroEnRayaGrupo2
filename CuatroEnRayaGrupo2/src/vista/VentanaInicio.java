@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.TitledBorder;
 
 import controlador.Main;
+import modelo.Jugador;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JComboBox;
@@ -46,9 +47,9 @@ public class VentanaInicio extends JFrame {
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_contentPane.columnWidths = new int[]{100, 0, 100, 0};
 		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 25, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
@@ -258,12 +259,14 @@ public class VentanaInicio extends JFrame {
 				
 				if (nombre1.getSelectedItem() != null) {
 					jugador1 = String.valueOf(nombre1.getSelectedItem());
+					Main.lj.agregarJugador(new Jugador(jugador1));// Si el jugador mete un nombre se crea un jugador
 				} else {
-					jugador1 = "Jugador1";
+					jugador1 = "Jugador1";// Si no introduce nombre, se usa un nombre por defecto y NO se crea un jugador nuevo
 				}
 				
 				if (nombre2.getSelectedItem() != null) {
 					jugador2 = String.valueOf(nombre2.getSelectedItem());
+					Main.lj.agregarJugador(new Jugador(jugador2));
 				} else {
 					jugador2 = "Jugador2";
 				}

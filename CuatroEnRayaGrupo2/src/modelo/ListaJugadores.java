@@ -26,6 +26,11 @@ public class ListaJugadores {
 
 	// Método para agregar un jugador a la lista
 	public void agregarJugador(Jugador jugador) {
+		for (Jugador j : jugadores) {
+			if (j.getNombre().equals(jugador.getNombre())) {
+				return;
+			}
+		}
 		jugadores = Arrays.copyOf(jugadores, jugadores.length + 1);
 		jugadores[jugadores.length - 1] = jugador;
 	}
