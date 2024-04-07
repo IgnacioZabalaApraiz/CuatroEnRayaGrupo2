@@ -114,7 +114,7 @@ public class VentanaInicio extends JFrame {
 		gbl_panelColor1.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panelColor1.setLayout(gbl_panelColor1);
 		
-		botonColor1 = new JButton("");//------------------------------------------------------------------------------------------------------------------
+		botonColor1 = new JButton("");
 		botonColor1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -166,7 +166,7 @@ public class VentanaInicio extends JFrame {
 		gbl_panelColor1_1.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panelColor1_1.setLayout(gbl_panelColor1_1);
 		
-		botonColor2 = new JButton("");//------------------------------------------------------------------------------------------------------------------
+		botonColor2 = new JButton("");
 		botonColor2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -259,6 +259,9 @@ public class VentanaInicio extends JFrame {
 				
 				if (nombre1.getSelectedItem() != null) {
 					jugador1 = String.valueOf(nombre1.getSelectedItem());
+					if (jugador1.length() > 18) {
+						jugador1 = jugador1.substring(0, 18);
+					}
 					Main.lj.agregarJugador(new Jugador(jugador1));// Si el jugador mete un nombre se crea un jugador
 				} else {
 					jugador1 = "Jugador1";// Si no introduce nombre, se usa un nombre por defecto y NO se crea un jugador nuevo
@@ -266,6 +269,9 @@ public class VentanaInicio extends JFrame {
 				
 				if (nombre2.getSelectedItem() != null) {
 					jugador2 = String.valueOf(nombre2.getSelectedItem());
+					if (jugador2.length() > 18) {
+						jugador2 = jugador2.substring(0, 18);
+					}
 					Main.lj.agregarJugador(new Jugador(jugador2));
 				} else {
 					jugador2 = "Jugador2";

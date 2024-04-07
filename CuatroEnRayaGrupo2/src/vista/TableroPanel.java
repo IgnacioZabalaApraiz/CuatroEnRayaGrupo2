@@ -56,7 +56,7 @@ public class TableroPanel extends JPanel implements ActionListener {
 		fondo = new ImageIcon("imagenes/fondo" + COLUMNAS + "x" + FILAS + ".png").getImage();
 		tableroIMG = new ImageIcon("imagenes/tablero" + COLUMNAS + "x" + FILAS + ".png").getImage();
 		ANCHO_PANEL = COLUMNAS * ANCHO_FICHA;
-		ALTO_PANEL = FILAS * ANCHO_FICHA + 170;
+		ALTO_PANEL = FILAS * ANCHO_FICHA + 140;
 		fichas = new Image[COLUMNAS * FILAS + 1];
 		
 		nombre1 = jugador1;
@@ -93,9 +93,9 @@ public class TableroPanel extends JPanel implements ActionListener {
 				}
 			});
 			if (COLUMNAS != 17) {
-				boton.setBounds(15 + ANCHO_FICHA * i, ALTO_PANEL - 150, 100, 30);
+				boton.setBounds(15 + ANCHO_FICHA * i, ALTO_PANEL - 130, 100, 30);
 			} else {
-				boton.setBounds(2 + ANCHO_FICHA * i, ALTO_PANEL - 150, 50, 20);
+				boton.setBounds(2 + ANCHO_FICHA * i, ALTO_PANEL - 130, 50, 20);
 			}
 			add(boton);
 		}

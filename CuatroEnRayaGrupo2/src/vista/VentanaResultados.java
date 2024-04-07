@@ -21,8 +21,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.swing.ScrollPaneConstants;
-
 public class VentanaResultados extends JFrame implements WindowListener {
 
 	private static final long serialVersionUID = 1L;
