@@ -26,7 +26,8 @@ public class TableroPanel extends JPanel implements ActionListener {
 	private Image ficha1;
 	private Image ficha2;
 	private JLabel textoTurno;
-	private JLabel nombreTurno;
+	private JLabel nombre1Turno;
+	private JLabel nombre2Turno;
 	private int contMovimientos = 0;
 	private Timer timer;
 	private int yVelocidad;
@@ -75,11 +76,19 @@ public class TableroPanel extends JPanel implements ActionListener {
 		textoTurno.setBounds((ANCHO_PANEL - textoTurno.getPreferredSize().width) / 2, ALTO_PANEL - 120, 372, 91);
 		add(textoTurno);
 		
-		nombreTurno = new JLabel(nombre1);
-		nombreTurno.setFont(new Font("Kristen ITC", Font.BOLD, 32));
-		nombreTurno.setForeground(new Color(255, 255, 255));
-		nombreTurno.setBounds((ANCHO_PANEL - nombreTurno.getPreferredSize().width) / 2, ALTO_PANEL - 80, 372, 91);
-		add(nombreTurno);
+		nombre1Turno = new JLabel(nombre1);
+		nombre1Turno.setFont(new Font("Kristen ITC", Font.BOLD, 32));
+		nombre1Turno.setForeground(new Color(255, 255, 255));
+		nombre1Turno.setBounds((ANCHO_PANEL - nombre1Turno.getPreferredSize().width) / 2, ALTO_PANEL - 80, 372, 91);
+		add(nombre1Turno);
+		
+		nombre2Turno = new JLabel(nombre2);
+		nombre2Turno.setFont(new Font("Kristen ITC", Font.BOLD, 32));
+		nombre2Turno.setForeground(new Color(45, 109, 223));
+		nombre2Turno.setBounds((ANCHO_PANEL - nombre2Turno.getPreferredSize().width) / 2, ALTO_PANEL - 80, 372, 91);
+		add(nombre2Turno);
+		nombre2Turno.setText("");
+		nombre2Turno.setForeground(new Color(255, 255, 255));
 
 		// Bucle para crear los botones
 		for (int i = 0; i < COLUMNAS; i++) {
@@ -115,21 +124,6 @@ public class TableroPanel extends JPanel implements ActionListener {
 			}
 		}
 	}
-	
-	/*
-	 * MÉTODO ANTIGUO, EL MÉTODO DE ARRIBA ES SOLO PARA COMPROBAR EL MÉTODO tableroLleno funcione correctamente.
-	 * public void generarFicha(int i) {
-		y = 0;
-		x = i;// Se queda seleccionada la columna concreta
-		if (Main.tablero[0][x] == 0) {// Solo se genere una ficha si quedan huecos en la columna
-			if (contMovimientos % 2 == 0) {
-				fichas[contMovimientos] = fichaAmarilla;
-			} else {
-				fichas[contMovimientos] = fichaRoja;
-			}
-		}
-	}
-	 */
 
 	public void paint(Graphics g) {// Se ejecuta al principio al iniciar la ventana y luego cada vez que se ejecuta
 									// el repaint()
@@ -195,9 +189,11 @@ public class TableroPanel extends JPanel implements ActionListener {
 
 	public void cambiarNombre() {// Cambiar el nombre del jugador que le toca cada turno
 		if (contMovimientos % 2 == 0) {
-			nombreTurno.setText(nombre1);
+			nombre1Turno.setText(nombre1);
+			nombre2Turno.setText("");
 		} else {
-			nombreTurno.setText(nombre2);
+			nombre1Turno.setText("");
+			nombre2Turno.setText(nombre2);
 		}
 	}
 
