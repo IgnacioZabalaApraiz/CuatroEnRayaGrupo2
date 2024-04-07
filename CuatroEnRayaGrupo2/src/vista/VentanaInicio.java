@@ -88,7 +88,13 @@ public class VentanaInicio extends JFrame {
 		gbc_jugador1.gridy = 1;
 		contentPane.add(jugador1, gbc_jugador1);
 		
-		JComboBox nombre1 = new JComboBox();
+		String[] nombres = new String[Main.lj.getJugadores().length + 1];
+		nombres[0] = ""; 
+		for (int i = 0; i < nombres.length - 1; i++) {
+			nombres[i + 1] = Main.lj.getJugadores()[i].getNombre();
+		}
+		
+		JComboBox<String> nombre1 = new JComboBox<>(nombres);
 		nombre1.setEditable(true);
 		nombre1.setForeground(new Color(45, 109, 223));
 		nombre1.setFont(new Font("Kristen ITC", Font.PLAIN, 22));
@@ -140,7 +146,7 @@ public class VentanaInicio extends JFrame {
 		gbc_jugador2.gridy = 3;
 		contentPane.add(jugador2, gbc_jugador2);
 		
-		JComboBox nombre2 = new JComboBox();
+		JComboBox<String> nombre2 = new JComboBox<>(nombres);
 		nombre2.setForeground(new Color(45, 109, 223));
 		nombre2.setFont(new Font("Kristen ITC", Font.PLAIN, 22));
 		nombre2.setEditable(true);
@@ -257,9 +263,9 @@ public class VentanaInicio extends JFrame {
 				String jugador1;
 				String jugador2;
 				
-				if (nombre1.getSelectedItem() != null) {
+				if (nombre1.getSelectedItem() != null && !String.valueOf(nombre1.getSelectedItem()).equals("")) {
 					jugador1 = String.valueOf(nombre1.getSelectedItem());
-					if (jugador1.length() > 18) {
+					if (jugador1.length() > 18) {// Evitar que el nombre sea muy largo
 						jugador1 = jugador1.substring(0, 18);
 					}
 					Main.lj.agregarJugador(new Jugador(jugador1));// Si el jugador mete un nombre se crea un jugador
@@ -267,12 +273,16 @@ public class VentanaInicio extends JFrame {
 					jugador1 = "Jugador1";// Si no introduce nombre, se usa un nombre por defecto y NO se crea un jugador nuevo
 				}
 				
-				if (nombre2.getSelectedItem() != null) {
+				if (nombre2.getSelectedItem() != null && !String.valueOf(nombre2.getSelectedItem()).equals("")) {
 					jugador2 = String.valueOf(nombre2.getSelectedItem());
 					if (jugador2.length() > 18) {
 						jugador2 = jugador2.substring(0, 18);
 					}
-					Main.lj.agregarJugador(new Jugador(jugador2));
+					if (!jugador2.equals(jugador1)) {// Evitar que los dos jugadores sean el mismo Jugador()
+						Main.lj.agregarJugador(new Jugador(jugador2));
+					} else {
+						jugador2 = "Jugador2";
+					}
 				} else {
 					jugador2 = "Jugador2";
 				}
